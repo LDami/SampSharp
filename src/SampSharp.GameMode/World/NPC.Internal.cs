@@ -14,7 +14,6 @@
 // limitations under the License.
 
 using SampSharp.Core.Natives.NativeObjects;
-using SampSharp.GameMode.Definitions;
 
 namespace SampSharp.GameMode.World;
 
@@ -177,37 +176,37 @@ public partial class Npc
         #endregion
         #region Health & Combat
         [NativeMethod]
-        public virtual void SetHealth(int npcid, float health)
+        public virtual void NPC_SetHealth(int npcid, float health)
         {
             throw new NativeNotImplementedException();
         }
 
         [NativeMethod]
-        public virtual float GetHealth(int npcid)
+        public virtual float NPC_GetHealth(int npcid)
         {
             throw new NativeNotImplementedException();
         }
 
         [NativeMethod]
-        public virtual void SetArmour(int npcid, float armour)
+        public virtual void NPC_SetArmour(int npcid, float armour)
         {
             throw new NativeNotImplementedException();
         }
 
         [NativeMethod]
-        public virtual float GetArmour(int npcid)
+        public virtual float NPC_GetArmour(int npcid)
         {
             throw new NativeNotImplementedException();
         }
 
         [NativeMethod]
-        public virtual void SetInvulnerable(int npcid, bool toggle)
+        public virtual void NPC_SetInvulnerable(int npcid, bool toggle)
         {
             throw new NativeNotImplementedException();
         }
 
         [NativeMethod]
-        public virtual bool GetInvulnerable(int npcid)
+        public virtual bool NPC_IsInvulnerable(int npcid)
         {
             throw new NativeNotImplementedException();
         }
@@ -317,7 +316,7 @@ public partial class Npc
         }
 
         [NativeMethod]
-        public virtual bool NPC_IsInfiniteAmmoEnabled(int npcid, bool enabe)
+        public virtual bool NPC_IsInfiniteAmmoEnabled(int npcid)
         {
             throw new NativeNotImplementedException();
         }
@@ -329,8 +328,8 @@ public partial class Npc
         }
 
         [NativeMethod]
-        public virtual bool NPC_Shoot(int npcid, int weapon, int target, float endPointX, float endPointY, float endPointZ, 
-            float offsetX, float offSetY, float offSetZ, bool isHit, int checkInBetweenFlags = (int)NPCEntityCheck.All)
+        public virtual bool NPC_Shoot(int npcid, int weapon, int hitId, int hitType, float endPointX, float endPointY, float endPointZ, 
+            float offsetX, float offSetY, float offSetZ, bool isHit, int checkInBetweenFlags)
         {
             throw new NativeNotImplementedException();
         }
@@ -343,15 +342,15 @@ public partial class Npc
 
         [NativeMethod]
         public virtual void NPC_AimAt(int npcid, float pointX, float pointY, float pointZ, bool shoot, int shootDelay, bool updateAngle,
-            float offsetFromX, float offsetFromY, float offsetFromZ, int checkInBetweenFlags = (int)NPCEntityCheck.All)
+            float offsetFromX, float offsetFromY, float offsetFromZ, int checkInBetweenFlags)
         {
             throw new NativeNotImplementedException();
         }
 
         [NativeMethod]
-        public virtual void NPC_AimAtPlaer(int npcid, int playerid, bool shoot, int shootDelay, bool updateAngle,
+        public virtual void NPC_AimAtPlayer(int npcid, int playerid, bool shoot, int shootDelay, bool updateAngle,
             float offsetX, float offSetY, float offSetZ, float offsetFromX, float offsetFromY, float offsetFromZ, 
-            int checkInBetweenFlags = (int)NPCEntityCheck.All)
+            int checkInBetweenFlags)
         {
             throw new NativeNotImplementedException();
         }
@@ -559,6 +558,171 @@ public partial class Npc
 
         [NativeMethod]
         public virtual float NPC_GetVehicleTrainSpeed(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+        #endregion
+        #region Animations
+
+        [NativeMethod]
+        public virtual void NPC_ResetAnimation(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual void NPC_SetAnimation(int npcid, int animationid, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual void NPC_GetAnimation(int npcid, out int animationid, out float delta, out bool loop, out bool lockX, out bool lockY, out bool freeze, out int time)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual void NPC_ApplyAnimation(int npcid, string animlib, string animname, float delta, bool loop, bool lockX, bool lockY, bool freeze, int time)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual void NPC_ClearAnimations(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual void NPC_SetSpecialAction(int npcid, int action)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual int NPC_GetSpecialAction(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+        #endregion
+        #region Playback
+
+        [NativeMethod]
+        public virtual bool NPC_StartPlayback(int npcid, string recordName, bool autoUnload, float startX, float startY, float startZ,
+            float rotX, float rotY, float rotZ)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_StartPlaybackEx(int npcid, int recordId, bool autoUnload, float startX, float startY, float startZ,
+            float rotX, float rotY, float rotZ)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_StopPlayback(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_PausePlayback(int npcid, bool paused)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_IsPlayingPlayback(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_IsPlaybackPaused(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        #endregion
+        #region Paths
+
+        [NativeMethod]
+        public virtual int NPC_CreatePath()
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_DestroyPath(int pathid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_DestroyAllPath()
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual int NPC_GetPathCount()
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_AddPointToPath(int pathid, float x, float y, float z, float stopRange)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_RemovePointFromPath(int pathid, int point_index)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_ClearPath(int pathid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual int NPC_GetPathPointCount(int pathid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_GetPathPoint(int pathid, int point_index, out float x, out float y, out float z, out float stopRange)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_IsValidPath(int pathid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual int NPC_GetCurrentPathPointIndex(int npcid)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_MoveByPath(int npcid, int pathid, int moveType, float moveSpeed, bool reversed = false)
+        {
+            throw new NativeNotImplementedException();
+        }
+
+        [NativeMethod]
+        public virtual bool NPC_HasPathPointInRange(int pathid, float x, float y, float z, float radius)
         {
             throw new NativeNotImplementedException();
         }
