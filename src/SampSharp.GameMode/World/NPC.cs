@@ -151,6 +151,11 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
     {
         var r = Npc.Create(-1); // Get an instance of Npc class by using IdentifiedPool's create method
         var id = NpcInternal.Instance.NPC_Create(name); // Create the Npc on the server and get it's id
+        if (id == InvalidId)
+        {
+            r.Dispose();
+            return null;
+        }
         r.Id = id;
         r.Name = name;
         return r;
@@ -413,6 +418,8 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
     /// <summary>
     /// Makes this Npc melee attack
     /// </summary>
+    /// <param name="time">Time in ms</param>
+    /// <param name="secondaryAttack">Use the secondary attack key instead of fire key</param>
     public virtual bool MeleeAttack(int time, bool secondaryAttack = false)
     {
         AssertNotDisposed();
@@ -473,6 +480,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
     /// <summary>
     /// Makes this NPC fire a weapon shoot
     /// </summary>
+    /// <remarks>The <paramref name="weapon"/> must throw bullets, otherwise this method does nothing</remarks>
     /// <param name="weapon">The weapon id to use for shooting</param>
     /// <param name="targetId">The ID of target entity being shot</param>
     /// <param name="targetType">The type of entity being hit (player, NPC, vehicle, etc.)</param>
@@ -579,7 +587,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
     {
         get
         {
-            var vehicleid = NpcInternal.Instance.NPC_GetVehicleId(Id);
+            var vehicleid = NpcInternal.Instance.NPC_GetVehicleID(Id);
             return vehicleid == 0
                 ? null
                 : BaseVehicle.Find(vehicleid);
@@ -604,6 +612,14 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         AssertNotDisposed();
 
         return NpcInternal.Instance.NPC_RemoveFromVehicle(Id);
+    }
+
+    /// <summary>Ejects without animation this <see cref="Npc" /> from his vehicle.</summary>
+    public virtual bool EnterInVehicle(BaseVehicle vehicle, int seatId, NPCMoveType moveType)
+    {
+        AssertNotDisposed();
+
+        return NpcInternal.Instance.NPC_EnterVehicle(Id, vehicle.Id, seatId, (int)moveType);
     }
 
     /// <summary>Ejects without animation this <see cref="Npc" /> from his vehicle.</summary>
@@ -667,6 +683,52 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         AssertNotDisposed();
 
         return NpcInternal.Instance.NPC_IsVehicleSirenUsed(Id);
+    }
+
+    /// <summary>
+    /// Gets the hydra thrusters direction
+    /// </summary>
+    /// <returns></returns>
+    public virtual int GetHydraThrusters()
+    {
+        AssertNotDisposed();
+
+        return NpcInternal.Instance.NPC_GetVehicleHydraThrusters(Id);
+    }
+
+    /// <summary>
+    /// Sets the hydra thrusters direction
+    /// </summary>
+    /// <param name="updown">0 = forward, 1 = backward</param>
+    /// <returns></returns>
+    public virtual void SetHydraThrusters(int updown)
+    {
+        AssertNotDisposed();
+
+        NpcInternal.Instance.NPC_SetVehicleHydraThrusters(Id, updown);
+    }
+
+    /// <summary>
+    /// Gets the hydra thrusters direction
+    /// </summary>
+    /// <returns>The gear state (0 = down, 1 = up)</returns>
+    public virtual int GetGearState()
+    {
+        AssertNotDisposed();
+
+        return NpcInternal.Instance.NPC_GetVehicleGearState(Id);
+    }
+
+    /// <summary>
+    /// Sets the vehicle's gear state
+    /// </summary>
+    /// <param name="updown">0 = down, 1 = up</param>
+    /// <returns></returns>
+    public virtual void SetGearState(int updown)
+    {
+        AssertNotDisposed();
+
+        NpcInternal.Instance.NPC_SetVehicleGearState(Id, updown);
     }
 
     /// <summary>

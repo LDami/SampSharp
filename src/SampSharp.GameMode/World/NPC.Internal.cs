@@ -467,7 +467,7 @@ public partial class Npc
         }
 
         [NativeMethod]
-        public virtual int NPC_GetVehicleId(int npcid)
+        public virtual int NPC_GetVehicleID(int npcid)
         {
             throw new NativeNotImplementedException();
         }
