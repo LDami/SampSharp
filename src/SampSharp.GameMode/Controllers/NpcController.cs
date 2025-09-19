@@ -55,6 +55,7 @@ public class NpcController : Disposable, IEventListener, ITypeProvider
     public virtual void RegisterTypes()
     {
         Npc.Register<Npc>();
+        Npc.Path.Register<Npc.Path>();
     }
 
     /// <summary>Performs tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
@@ -66,6 +67,11 @@ public class NpcController : Disposable, IEventListener, ITypeProvider
         foreach (var npc in Npc.All)
         {
             npc.Dispose();
+        }
+
+        foreach (var path in Npc.Path.All)
+        {
+            path.Dispose();
         }
     }
 }

@@ -45,8 +45,8 @@ public abstract partial class BaseMode
     [Callback]
     internal bool OnPlayerConnect(int playerid)
     {
-        OnPlayerConnected(BasePlayer.FindOrCreate(playerid), EventArgs.Empty);
-
+        var player = BasePlayer.FindOrCreate(playerid);
+        OnPlayerConnected(player, EventArgs.Empty);
         return true;
     }
 
@@ -696,11 +696,11 @@ public abstract partial class BaseMode
     [Callback]
     internal bool OnNPCCreate(int npcid)
     {
-        var npc = Npc.Find(npcid);
+        var npc = Npc.FindOrCreate(npcid);
 
         if (npc == null)
         {
-            return true;           
+            return true;
         }
 
         OnNPCCreate(npc, EventArgs.Empty);

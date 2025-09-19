@@ -19,6 +19,7 @@ using SampSharp.Core.Logging;
 using SampSharp.GameMode.Definitions;
 using SampSharp.GameMode.Events;
 using SampSharp.GameMode.Pools;
+using static SampSharp.GameMode.World.BasePlayer;
 
 namespace SampSharp.GameMode.World;
 
@@ -39,7 +40,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
     public const float MoveSpeedSprint = 0.926784f;
 
     /// <summary>
-    /// Initialize the instance
+    /// Initialize the instance with default values (name will be empty)
     /// </summary>
     public Npc()
     {
@@ -58,8 +59,11 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
     /// <summary>Gets or sets the name of this NPC.</summary>
     public virtual string Name
     {
-        get;
-        private set;
+        get {
+            BasePlayer.PlayerInternal.Instance.GetPlayerName(Id, out var name, BasePlayer.MaxNameLength);
+            return name;
+        }
+        set => PlayerInternal.Instance.SetPlayerName(Id, value);
     }
 
     /// <summary>Gets or sets the interior of this NPC.</summary>
@@ -147,18 +151,9 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
 
     /// <summary>Creates the NPC with the given name</summary>
     /// <param name="name">The name of the NPC</param>
-    public static Npc Create(string name)
+    public static bool Create(string name)
     {
-        var r = Npc.Create(-1); // Get an instance of Npc class by using IdentifiedPool's create method
-        var id = NpcInternal.Instance.NPC_Create(name); // Create the Npc on the server and get it's id
-        if (id == InvalidId)
-        {
-            r.Dispose();
-            return null;
-        }
-        r.Id = id;
-        r.Name = name;
-        return r;
+        return NpcInternal.Instance.NPC_Create(name) != InvalidId; // Create the Npc on the server and get it's id
     }
 
     /// <summary>
@@ -899,7 +894,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
     /// <summary>
     /// Contains all the path methods, used for NPC navigation
     /// </summary>
-    public class Path
+    public class Path : IdentifiedPool<Path>
     {
         /// <summary>
         /// Path ID of this instance
@@ -909,6 +904,17 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
             get;
             private set;
         }
+
+        /// <summary>
+        /// Gets the number of points
+        /// </summary>
+        public virtual int PointCount { get => NpcInternal.Instance.NPC_GetPathPointCount(PathId); }
+
+        /// <summary>
+        /// Gets current path point index
+        /// </summary>
+        public virtual int PointIndex { get => NpcInternal.Instance.NPC_GetCurrentPathPointIndex(PathId); }
+
         /// <summary>
         /// Creates a new path that can be used for NPC navigation
         /// </summary>
@@ -918,6 +924,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         {
             PathId = NpcInternal.Instance.NPC_CreatePath();
         }
+
         /// <summary>
         /// Destroy the specified path
         /// </summary>
@@ -926,6 +933,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         {
             return NpcInternal.Instance.NPC_DestroyPath(PathId);
         }
+
         /// <summary>
         /// Destroys all paths
         /// </summary>
@@ -935,10 +943,6 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         {
             return NpcInternal.Instance.NPC_DestroyAllPath();
         }
-        /// <summary>
-        /// Gets the number of path on the server
-        /// </summary>
-        public virtual int Count => NpcInternal.Instance.NPC_GetPathCount();
 
         /// <summary>
         /// Adds a point at the end of this path
@@ -950,6 +954,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         {
             return NpcInternal.Instance.NPC_AddPointToPath(PathId, pos.X, pos.Y, pos.Z, stopRange);
         }
+
         /// <summary>
         /// Removes a point from this path
         /// </summary>
@@ -959,6 +964,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         {
             return NpcInternal.Instance.NPC_RemovePointFromPath(PathId, pointIndex);
         }
+
         /// <summary>
         /// Removes all the point of this path
         /// </summary>
@@ -968,6 +974,7 @@ public partial class Npc : IdentifiedPool<Npc>, IWorldObject
         {
             return NpcInternal.Instance.NPC_ClearPath(PathId);
         }
+
         /// <summary>
         /// Gets position and stop range from a point
         /// </summary>
