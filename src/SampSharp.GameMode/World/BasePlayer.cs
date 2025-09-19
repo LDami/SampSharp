@@ -29,22 +29,22 @@ public partial class BasePlayer : IdentifiedPool<BasePlayer>, IWorldObject
     internal bool IsNpcOverride { get; set; }
 
     /// <summary>Identifier indicating the handle is invalid.</summary>
-    public const int InvalidId = 0xFFFF;
+    public static readonly int InvalidId = 0xFFFF;
 
     /// <summary>Maximum number of players which can exist.</summary>
-    public const int Max = 1000;
+    public static readonly int Max = 1000;
 
     /// <summary>Maximum number of attached objects attached to a player.</summary>
-    public const int MaxAttachedObjects = 10;
+    public static readonly int MaxAttachedObjects = 10;
 
     /// <summary>Identifier indicating a player is not a member of any team.</summary>
-    public const int NoTeam = 0xFF;
+    public static readonly int NoTeam = 0xFF;
 
     /// <summary>Maximum length of a player's name.</summary>
-    public const int MaxNameLength = 24;
+    public static readonly int MaxNameLength = 24;
 
     /// <summary>Maximum length of the text in a chat bubble.</summary>
-    public const int MaxChatBubbleLength = 144;
+    public static readonly int MaxChatBubbleLength = 144;
 
     /// <summary>Initializes the <see cref="BasePlayer" /> class.</summary>
     static BasePlayer()
@@ -525,7 +525,7 @@ public partial class BasePlayer : IdentifiedPool<BasePlayer>, IWorldObject
     /// <summary>Occurs when the <see cref="OnSpawned" /> is being called. This callback is called when a player spawns.</summary>
     public event EventHandler<SpawnEventArgs> Spawned;
 
-    /// <summary>Occurs when the <see cref="OnDeath" /> is being called. This callback is triggered when the game mode starts.</summary>
+    /// <summary>Occurs when the <see cref="OnDeath" /> is being called. This callback is triggered when the player dies.</summary>
     public event EventHandler<DeathEventArgs> Died;
 
     /// <summary>Occurs when the <see cref="OnText" /> is being called. Called when a player sends a chat message.</summary>
